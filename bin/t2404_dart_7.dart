@@ -237,24 +237,31 @@ void calculateWorkingDays() {
   print("👉 Số ngày công: $count");
 }
 
-void calculateWorkingDays() {
-  stdout.write("Nhập ngày bắt đầu (yyyy-mm-dd): ");
-  DateTime start = DateTime.parse(stdin.readLineSync()!);
+void normalizeName2() {
+  stdout.write("Nhập tên: ");
+  String input = stdin.readLineSync() ?? "";
 
-  stdout.write("Nhập ngày kết thúc (yyyy-mm-dd): ");
-  DateTime end = DateTime.parse(stdin.readLineSync()!);
+  input = input.trim().toLowerCase();
 
-  int count = 0;
+  List<String> chars = input.split("");
 
-  for (
-    DateTime d = start;
-    d.isBefore(end) || d.isAtSameMomentAs(end);
-    d = d.add(Duration(days: 1))
-  ) {
-    if (d.weekday != DateTime.saturday && d.weekday != DateTime.sunday) count++;
+  List<String> result = [];
+
+  for (int i = 0; i < chars.length; i++) {
+    if (i == 0 && chars[i] != " ") {
+      result.add(chars[i].toUpperCase());
+    } else if (chars[i - 1] == " " && chars[i] != " ") {
+      result.add(chars[i].toUpperCase());
+    } else {
+      result.add(chars[i]);
+    }
   }
 
-  print("👉 Số ngày công: $count");
+  String name = result.join(" ");
+
+  name = name.replaceAll(RegExp(r"\s+"), " ");
+
+  print("👉 Kết quả: $name");
 }
 
 void numberToWords() {
